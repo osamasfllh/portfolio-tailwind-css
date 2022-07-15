@@ -56,3 +56,39 @@ if (
 } else {
   darkToggle.checked = false;
 }
+
+// Pesan
+const scriptURL =
+  "https://script.google.com/macros/s/AKfycbz2jHOgcNq38cC8HdXLn4hYvGg0oRUIT0NY9BZnnE1A-zK-7wUsf3GhQz6I1QVE7gcNXw/exec";
+const form = document.forms["wrc-contact-form"];
+const btnKirim = document.querySelector(".btn-kirim");
+const btnLoading = document.querySelector(".btn-loading");
+const myAlert = document.querySelector(".my-alert");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  // ketika tombol submit diklik
+  // tampilkan tombol loading hilangkan tombol kirim
+  btnLoading.classList.toggle("hidden");
+  btnKirim.classList.toggle("hidden");
+  fetch(scriptURL, { method: "POST", body: new FormData(form) })
+    .then((response) => {
+      // tampilkan tombol Kirim hilangkan tombol Loading
+      btnLoading.classList.toggle("hidden");
+      btnKirim.classList.toggle("hidden");
+      // tampilkan Alert
+      myAlert.classList.toggle("invisible");
+      // reset form
+      form.reset();
+      console.log("Success!", response);
+    })
+    .catch((error) => console.error("Error!", error.message));
+});
+
+// Script For Close alert
+var alert_del = document.querySelectorAll(".alert-del");
+alert_del.forEach((x) =>
+  x.addEventListener("click", function () {
+    x.parentElement.classList.add("hidden");
+  })
+);
